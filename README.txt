@@ -16,7 +16,7 @@ In order to build and run the standalone java program, run the following, from t
 
 
 If you are sending data to Event Hub run
-> java -jar .\target\vm-metrics-to-eventhub-0.0.1-SNAPSHOT-jar-with-dependencies.jar META-INF/eventhub.properties send
+> java -jar .\target\metrics-eventhub-0.0.1-SNAPSHOT-jar-with-dependencies.jar META-INF/eventhub.properties send
 
 If you are receiving data from Event Hub, run
-> java -jar .\target\vm-metrics-to-eventhub-0.0.1-SNAPSHOT-jar-with-dependencies.jar META-INF/eventhub.properties receive
+> java -jar .\target\metrics-eventhub-0.0.1-SNAPSHOT-jar-with-dependencies.jar META-INF/eventhub.properties receive
