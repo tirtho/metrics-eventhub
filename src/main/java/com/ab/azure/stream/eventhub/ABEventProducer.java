@@ -30,15 +30,22 @@ public class ABEventProducer {
 	}
 	
 	public void send() {
+		
         EventDataBatch batch = producer.createBatch();
-        StringBuilder str = new StringBuilder();
-        str.append(System.currentTimeMillis()).append(",").append(metricsCollector.getMetrics());
-        String data = str.toString();
-        batch.tryAdd(new EventData(data));
-        //batch.tryAdd(new EventData("First event"));
-        // send the batch of events to the event hub
-        producer.send(batch);
-		System.out.printf("[%s] Sent event: timeInMillis,temperature,processorLoadUser,availableMemory,processCount,availableStorageSpace\n%s\n", ZonedDateTime.now(), data);
+//        StringBuilder str = new StringBuilder();
+//        str.append(System.currentTimeMillis()).append(",").append(metricsCollector.getMetrics());
+//        String data = str.toString();
+        String data = metricsCollector.getMetrics();
+        if (data != null) {
+            batch.tryAdd(new EventData(data));
+            //batch.tryAdd(new EventData("First event"));
+            // send the batch of events to the event hub
+            producer.send(batch);
+//    		System.out.printf("[%s] Sent event: timeInMillis,temperature,processorLoadUser,availableMemory,processCount,availableStorageSpace\n%s\n", ZonedDateTime.now(), data);
+    		System.out.printf("[%s] Sent event: %s\n", ZonedDateTime.now(), data);
+        } else {
+    		System.out.printf("[%s] Sent event: %s\n", ZonedDateTime.now(), "Failed to collect metrics");
+        }
 	}
 	
 	public void close() {
