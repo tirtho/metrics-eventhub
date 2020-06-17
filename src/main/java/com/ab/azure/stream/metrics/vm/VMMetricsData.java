@@ -1,7 +1,8 @@
 package com.ab.azure.stream.metrics.vm;
 
 public class VMMetricsData {
-	public void VMMetrics() {};
+
+	// TODO: Add the builder pattern to load data fields
 	public VMMetricsData(long timeInMillis, double temperature, long processorLoadUser, long availableMemory,
 			int processCount, long availableStorageSpace) {
 		super();
@@ -11,6 +12,11 @@ public class VMMetricsData {
 		this.availableMemory = availableMemory;
 		this.processCount = processCount;
 		this.availableStorageSpace = availableStorageSpace;
+	}
+
+	public VMMetricsData() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public long getTimeInMillis() {

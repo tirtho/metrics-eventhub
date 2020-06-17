@@ -34,12 +34,6 @@ public class VMMetrics implements Metrics {
 		for (long[] processor : hardware.getProcessor().getProcessorCpuLoadTicks()) {
 			userProcessorLoad += processor[0];
 		}
-//		StringBuffer mx = new StringBuffer();
-//		mx.append(hardware.getSensors().getCpuTemperature()).append(",")
-//			.append(userProcessorLoad).append(",") // User load
-//			.append(hardware.getMemory().getAvailable()).append(",")
-//			.append(os.getProcessCount()).append(",")
-//			.append(diskSpaceFree);
 		VMMetricsData vmxData = new VMMetricsData(
 										System.currentTimeMillis(),
 										hardware.getSensors().getCpuTemperature(),

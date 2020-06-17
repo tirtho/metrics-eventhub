@@ -1,15 +1,6 @@
 package com.ab.azure.stream.eventhub;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -17,12 +8,11 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 
 import com.ab.azure.stream.metrics.vm.VMMetrics;
-import com.azure.messaging.eventhubs.*;
 
 public class ABMetrics2Eventhub {
 	private static final String EVENTHUB_NAMESPACE_CONNECTION_STRING = "eventhub.namespace.connection.string";
 	private static final String EVENTHUB_NAME = "eventhub.name";
-	private static final String SEND_INTERVAL_MILLIS = "eventhub.send.interval.millis";
+	private static final String SEND_INTERVAL_MILLIS = "SEND_INTERVAL_MILLIS";
 
 	private static final Integer DEFAULT_SEND_INTERVAL = 60000; // 1 minute
 	private static Configuration config;
@@ -40,7 +30,9 @@ public class ABMetrics2Eventhub {
 		
         final String connectionString = config.getString(EVENTHUB_NAMESPACE_CONNECTION_STRING);
         final String eventHubName = config.getString(EVENTHUB_NAME);
-        final int sendIntervalMillis = config.getInteger(SEND_INTERVAL_MILLIS, DEFAULT_SEND_INTERVAL);
+        final int sendIntervalMillis = System.getenv(SEND_INTERVAL_MILLIS) != null ? 
+        		Integer.valueOf(System.getenv(SEND_INTERVAL_MILLIS)).intValue() : 
+        			config.getInteger(SEND_INTERVAL_MILLIS, DEFAULT_SEND_INTERVAL);
         
 		if (StringUtils.equalsIgnoreCase(args[1], "send")) {
 			// Sender
