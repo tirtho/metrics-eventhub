@@ -16,7 +16,7 @@ public class VMMetrics implements Metrics {
 	private HardwareAbstractionLayer hardware;
 	private FileSystem fs;
 	private OperatingSystem os;
-	
+
 	public VMMetrics() {
 		super();
 		sysInfo = new SystemInfo();
@@ -24,24 +24,19 @@ public class VMMetrics implements Metrics {
 		os = sysInfo.getOperatingSystem();
 		fs = os.getFileSystem();
 	}
-	
+
 	public String getMetrics() {
 		long diskSpaceFree = 0;
 		for (OSFileStore fileStore : fs.getFileStores(true)) {
 			diskSpaceFree += fileStore.getFreeSpace();
-		};
+		}
+		;
 		long userProcessorLoad = 0;
 		for (long[] processor : hardware.getProcessor().getProcessorCpuLoadTicks()) {
 			userProcessorLoad += processor[0];
 		}
-		VMMetricsData vmxData = new VMMetricsData(
-										System.currentTimeMillis(),
-										hardware.getSensors().getCpuTemperature(),
-										userProcessorLoad,
-										hardware.getMemory().getAvailable(),
-										os.getProcessCount(),
-										diskSpaceFree
-									);
+		VMMetricsData vmxData = new VMMetricsData(System.currentTimeMillis(), hardware.getSensors().getCpuTemperature(),
+				userProcessorLoad, hardware.getMemory().getAvailable(), os.getProcessCount(), diskSpaceFree);
 		ObjectMapper obj = new ObjectMapper();
 		try {
 			return obj.writeValueAsString(vmxData);
@@ -51,5 +46,4 @@ public class VMMetrics implements Metrics {
 			return null;
 		}
 	}
-	
 }

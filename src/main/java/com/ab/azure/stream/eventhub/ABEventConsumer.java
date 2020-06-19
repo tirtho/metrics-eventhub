@@ -3,7 +3,9 @@ package com.ab.azure.stream.eventhub;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
 
 import com.ab.azure.stream.metrics.vm.VMMetricsData;
@@ -51,7 +53,7 @@ public class ABEventConsumer {
             try {
 				VMMetricsData vd = objMap.readValue(jsonEventData, VMMetricsData.class);
 				if (writer != null) {
-					writer.printf("%d,%.1f,%d,%d,%d,%d\n", vd.getTimeInMillis(), vd.getTemperature(), 
+					writer.printf("%d,%.1f,%d,%d,%d,%d\n", Instant.ofEpochMilli(vd.getTimeInMillis()).truncatedTo(ChronoUnit.MINUTES).toEpochMilli(), vd.getTemperature(), 
 							vd.getProcessorLoadUser(), vd.getProcessCount(), vd.getAvailableMemory(), 
 							vd.getAvailableStorageSpace());
 					writer.flush();

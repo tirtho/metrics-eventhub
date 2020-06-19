@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.ab.azure.stream.metrics.Metrics;
+import com.ab.azure.stream.metrics.vm.VMMetrics;
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventDataBatch;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
@@ -16,8 +17,8 @@ public class ABEventProducer {
 	private EventHubProducerClient producer;
 	int INITIAL_DELAY = 10;
 	Metrics metricsCollector;
-	public ABEventProducer(String connectionString, String eventHubName, int sendIntervalMillis, Metrics metricsCollector)  {
-		this.metricsCollector = metricsCollector;
+	public ABEventProducer(String connectionString, String eventHubName, int sendIntervalMillis)  {
+		this.metricsCollector = new VMMetrics();
         this.producer = new EventHubClientBuilder()
 	            .connectionString(connectionString, eventHubName)
 	            .buildProducerClient();
